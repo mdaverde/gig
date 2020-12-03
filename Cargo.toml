@@ -1,14 +1,17 @@
 [package]
-name = "gitignore-cli"
+name = "gig-cli"
 version = "0.1.0"
 authors = ["Milan <milanlandaverde@gmail.com>"]
 edition = "2018"
 
 [[bin]]
-name = "gitignore"
+name = "gig"
 path = "src/main.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-clap = "~2.33.3"
+clap = "2.33.3"
+ureq = { version = "1.5.2", features = ["json"] }
+serde = "1.0.117"
+serde_json = "1.0.60"
