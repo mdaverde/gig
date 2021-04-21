@@ -1,8 +1,15 @@
 [package]
 name = "gig-cli"
 version = "0.1.0"
-authors = ["Milan <milanlandaverde@gmail.com>"]
+authors = ["Milan <hey@mdaverde.com>"]
 edition = "2018"
+homepage = "https://github.com/mdaverde/gig"
+repository = "https://github.com/mdaverde/gig"
+license = "MIT"
+readme = "README.md"
+description = "Simple cli to create a .gitignore based off Github's gitignore repo"
+categories = ["command-line-utilities"]
+keywords = ["cli", "gitignore", "github", "git", "repo"]
 
 [[bin]]
 name = "gig"

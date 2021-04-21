@@ -1,7 +1,7 @@
 <div align="center">
 	<h1>gig</h1>
 	<p>
-		CLI to generate .gitignores based off <a href="https://github.com/github/gitignore">Github's gitignore</a> repo
+		Simple cli to create a .gitignore based off <a href="https://github.com/github/gitignore">Github's gitignore</a> repo
 	</p>
 	<br>
 </div>
