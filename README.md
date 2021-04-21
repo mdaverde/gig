@@ -6,7 +6,37 @@
 	<br>
 </div>
 
+## Usage
+
+```shell
+$ gig -l # lists out all possible .gitignore
+$ gig <keyword> # will print to stdout specify .gitignore
+$ gig <keyword> --write # Similar to > .gitignore but is careful not to overwrite
+$ gig <keyword> --write-force # Force writes to .gitignore
+```
+
+### Example
+```shell
+$ gig -l | grep -i ^c | head -n 3
+C++.gitignore
+C.gitignore
+CFWheels.gitignore
+$ gig c++ --write 
+Writing c++ gitignore to .gitignore...
+$ gig c >> .gitignore
+$ gig rust --write-force
+```
+
 ## Install
+
+### Cargo
+
+If you're using a recent version of Cargo, you can see the `cargo install` command:
+
+```shell
+$ cargo install gig-cli
+```
+
 
 ### Build from source
 
