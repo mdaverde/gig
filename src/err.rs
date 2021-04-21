@@ -6,7 +6,7 @@ pub enum CliError {
     IO(io::Error),
     Network(ureq::Error),
     GitIgnoreNotFound(String),
-    OverwriteFile
+    OverwriteFile,
 }
 
 impl fmt::Display for CliError {
@@ -14,8 +14,13 @@ impl fmt::Display for CliError {
         match self {
             CliError::IO(io_err) => io_err.fmt(f),
             CliError::Network(network_err) => network_err.fmt(f),
-            CliError::GitIgnoreNotFound(search_keyword) => write!(f, "Gitignore for {} not found", search_keyword),
-            CliError::OverwriteFile => write!(f, ".gitignore exists in current working directory. Use `--write-force` to overwrite"),
+            CliError::GitIgnoreNotFound(search_keyword) => {
+                write!(f, "Gitignore for {} not found", search_keyword)
+            }
+            CliError::OverwriteFile => write!(
+                f,
+                ".gitignore exists in current working directory. Use `--write-force` to overwrite"
+            ),
         }
     }
 }

@@ -1,5 +1,6 @@
-use serde::{Serialize, Deserialize};
 use std::io::Write;
+
+use serde::{Deserialize, Serialize};
 
 use crate::err::CliError;
 
@@ -32,23 +33,29 @@ impl GitContent {
         self.path
             .replace(GITIGNORE_FILE, "")
             .to_lowercase()
-            .contains(&lowercase_keyword)
+            .eq(&lowercase_keyword)
     }
 
-    fn list() -> Result<impl Iterator<Item=GitContent>, CliError> {
+    fn list() -> Result<impl Iterator<Item = GitContent>, CliError> {
         let raw_contents = RawGitContent::list()?;
         let iter = raw_contents.into_iter().filter_map(|raw| {
-            let path = raw.path.unwrap();
-            if path.len() < 1 || !path.ends_with(".gitignore") {
+            if let Some(path) = raw.path {
+                if path.len() < 1 || !path.ends_with(".gitignore") {
+                    return None;
+                }
+
+                if let Some(download_url) = raw.download_url {
+                    if download_url.len() < 1 {
+                        return None;
+                    }
+
+                    return Some(GitContent { path, download_url });
+                }
+
                 return None;
             }
 
-            let download_url = raw.download_url.unwrap();
-            if download_url.len() < 1 {
-                return None;
-            }
-
-            Some(GitContent { path, download_url })
+            None
         });
         Ok(iter)
     }
@@ -59,15 +66,12 @@ impl GitContent {
             .filter(|content| content.matches_keyword(keyword))
             .collect();
 
-        // TODO: handle case where not one or more than one is found
         let len = matched_contents.len();
         if len < 1 {
             return Err(CliError::GitIgnoreNotFound(keyword.into()));
-        } else if len > 1 {
-            // TODO: clarify from the user
         }
 
-        let chosen: &GitContent = &matched_contents[0];
+        let chosen = &matched_contents[0];
         let response = ureq::get(&chosen.download_url).call()?;
         Ok(response.into_string()?)
     }
@@ -77,7 +81,8 @@ pub fn list_all() -> Result<(), CliError> {
     let list: Vec<String> = GitContent::list()?.map(|content| content.path).collect();
     println!(
         "To output a gitignore you can write `{} [keyword]` (i.e. `{} actionscript`)",
-        crate::CLI_NAME, crate::CLI_NAME
+        crate::CLI_NAME,
+        crate::CLI_NAME
     );
     println!(
         "All possible .gitignores ({}): \n\n{}",
@@ -94,7 +99,7 @@ pub fn print_single(keyword: &str) -> Result<(), CliError> {
 }
 
 pub fn write(keyword: &str, force: bool) -> Result<(), CliError> {
-    use std::{fs, env};
+    use std::{env, fs};
 
     let cwd = env::current_dir()?.join(GITIGNORE_FILE);
     if cwd.exists() && !force {

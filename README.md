@@ -10,7 +10,7 @@
 
 ```shell
 $ gig -l # lists out all possible .gitignore
-$ gig <keyword> # will print to stdout specify .gitignore
+$ gig <keyword> # will print to stdout specific .gitignore
 $ gig <keyword> --write # Similar to > .gitignore but is careful not to overwrite
 $ gig <keyword> --write-force # Force writes to .gitignore
 ```
@@ -23,8 +23,8 @@ C.gitignore
 CFWheels.gitignore
 $ gig c++ --write 
 Writing c++ gitignore to .gitignore...
-$ gig c >> .gitignore
-$ gig rust --write-force
+$ gig c >> .gitignore 
+$ gig rust --write-force 
 ```
 
 ## Install

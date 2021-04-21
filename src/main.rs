@@ -1,6 +1,6 @@
 mod err;
-mod parser;
 mod ops;
+mod parser;
 
 const CLI_NAME: &str = "gig";
 
@@ -13,19 +13,19 @@ fn main() {
                 eprintln!("Error: {}", err);
                 std::process::exit(1);
             }
-        },
+        }
         Op::PrintSingle(keyword) => {
             if let Err(err) = ops::print_single(&keyword) {
                 eprintln!("Error: {}", err);
                 std::process::exit(1);
             }
-        },
+        }
         Op::Write(keyword) => {
             if let Err(err) = ops::write(&keyword, false) {
                 eprintln!("Error: {}", err);
                 std::process::exit(1);
             }
-        },
+        }
         Op::WriteForce(keyword) => {
             if let Err(err) = ops::write(&keyword, true) {
                 eprintln!("Error: {}", err);
