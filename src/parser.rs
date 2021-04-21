@@ -9,31 +9,31 @@ pub enum Op {
 
 pub fn parse_args() -> Op {
     let matches = clap::App::new(crate::CLI_NAME)
-        .about("Generates a commonly-defined gitignore")
-        .version("0.1")
+        .about("Generates a commonly-defined .gitignore")
+        .version(clap::crate_version!())
         .author("Milan <hey@mdaverde.com>")
         .arg(
             clap::Arg::with_name("keyword")
-                .help("<<TBD>>")
+                .help("Used to specify .gitignore to generate")
                 .conflicts_with("list")
                 .required_unless("list"),
         )
         .arg(
             clap::Arg::with_name("list")
-                .help("<<TBD>>")
+                .help("Lists all possible .gitignores")
                 .short("l")
                 .long("list"),
         )
         .arg(
             clap::Arg::with_name("write")
-                .help("")
+                .help("Writes to .gitignore in current working directory (does NOT overwrite if already exists)")
                 .short("w")
                 .long("write")
                 .requires("keyword"),
         )
         .arg(
             clap::Arg::with_name("write-force")
-                .help("")
+                .help("Overwrites .gitignore in current working directory")
                 .long("write-force")
                 .requires("keyword"),
         )
